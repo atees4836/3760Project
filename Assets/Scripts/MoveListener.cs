@@ -14,6 +14,10 @@ public class MoveListener : MonoBehaviour
 	public GameObject selectedObject;
 	private Collider2D targetObject;
 
+	void Start() {
+		gameManager = FindObjectOfType<GameManager>();
+	}
+
     // Update is called once per frame
     void Update()
     {
@@ -26,7 +30,7 @@ public class MoveListener : MonoBehaviour
 
         	if (targetObject)
 	        {
-	        	Debug.Log("Object Picked up");
+	        	Debug.Log(targetObject.gameObject.name + " Picked up");
 	            selectedObject = targetObject.transform.gameObject;
 	            offset = selectedObject.transform.position - mousePos;
 	        }
@@ -39,14 +43,13 @@ public class MoveListener : MonoBehaviour
 
 
         if (Input.GetMouseButtonDown(0) && selectedObject && holding) {
-	        	Debug.Log("Object Dropped");
+	        	Debug.Log(targetObject.gameObject.name + " Dropped");
 
 	            selectedObject.transform.position = mousePos + offset;
 	            selectedObject = null;
 	            holding = false;
 
-	            gameManager = FindObjectOfType<GameManager>();
-    			gameManager.print();
+	            gameManager.turnSwitch();
         }
 
 

@@ -24,8 +24,13 @@ public class GameManager : MonoBehaviour
     	Debug.Log("It is player " + curPlayer + "'s turn.");
     }
 
-public void print() {
-	Debug.Log("Poopoosus");
-}
+    public void turnSwitch() {
+    	if (curPlayer == 1) {
+    		curPlayer = 2;
+    	} else if (curPlayer == 2) {
+    		curPlayer = 1;
+    	}
+    	Debug.Log("It is player " + curPlayer + "'s turn.");
+    }
     
 }
