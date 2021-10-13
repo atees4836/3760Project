@@ -7,9 +7,13 @@ public class GameManager : MonoBehaviour
 
 	public static GameManager instance;
 
+	public Board board;
+
 	private Player red;
 	private Player black;
 	private int curPlayer = 1;
+
+	public GameObject blackPiece;
 
 
 	void Awake() {
@@ -22,6 +26,12 @@ public class GameManager : MonoBehaviour
     	black = new Player("black", 2);
 
     	Debug.Log("It is player " + curPlayer + "'s turn.");
+
+    	setup();
+    }
+
+    private void setup() {
+    	board.AddPiece(blackPiece, black, -500, 500);
     }
 
     public void turnSwitch() {
