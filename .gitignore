@@ -73,5 +73,10 @@ crashlytics-build.properties
 # Mac files
 .DS_Store
 
-# Executable
+# Executable Data
 TestCheckers.app
+claire_learning.exe
+claire_learning_Data/
+MonoBleedingEdge/
+UnityCrashHandler64.exe
+UnityPlayer.dll
