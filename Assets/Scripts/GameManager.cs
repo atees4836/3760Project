@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PieceAttributes;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class GameManager : MonoBehaviour
 	private int curPlayer = 1;
 
 	public GameObject blackPiece;
+	public GameObject redPiece;
 
 
 	void Awake() {
@@ -31,7 +33,18 @@ public class GameManager : MonoBehaviour
     }
 
     private void setup() {
-    	board.AddPiece(blackPiece, black, -500, 500);
+
+    	for (int i = 0; i < 4; i++) {
+    		for (int j = 0; j < 3; j++) {
+    			if (j == 1) {
+    				board.AddPiece(blackPiece, black, 50 + (i * 200), 840 - (j * 100));
+    				board.AddPiece(redPiece, red, 50 + (i * 200), 340 - (j * 100));
+    			} else {
+    				board.AddPiece(blackPiece, black, 150 + (i * 200), 840 - (j * 100));
+    		    	board.AddPiece(redPiece, red, 150 + (i * 200), 340 - (j * 100));	
+    			}
+    		}
+    	}
     }
 
     public void turnSwitch() {
