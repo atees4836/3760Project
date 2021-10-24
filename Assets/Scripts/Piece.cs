@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using PieceAttributes;
 
-public enum PieceType {King, Normal};
-public enum Colour {Red, Black};
+namespace PieceAttributes {
+	public enum PieceType {King, Normal};
+	public enum Colour {Red, Black};
+}
 
 public abstract class Piece : MonoBehaviour
 {
