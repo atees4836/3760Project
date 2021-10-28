@@ -421,7 +421,6 @@ MonoBehaviour:
   board: {fileID: 1537037702}
   blackPiece: {fileID: 8406445562856619522, guid: 2f7f4555904bfb64bb2b2a3a0f1839c6, type: 3}
   redPiece: {fileID: 5022866675478635970, guid: b7f9ec73f916a9849aae35ad0efcc133, type: 3}
-  tile: {fileID: -962626154738552253, guid: 60bb80f0dc74a7b4484ab76bb8da0289, type: 3}
 --- !u!1 &689133158
 GameObject:
   m_ObjectHideFlags: 0
@@ -919,7 +918,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1537037698}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3927a24f44c4df44587bca68048311cc, type: 3}
   m_Name: 
@@ -937,6 +936,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 627a9fca57fd10841bfcfb20e55e0f9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tile: {fileID: -962626154738552253, guid: 60bb80f0dc74a7b4484ab76bb8da0289, type: 3}
 --- !u!1 &1694268003
 GameObject:
   m_ObjectHideFlags: 0

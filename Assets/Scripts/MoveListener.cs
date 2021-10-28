@@ -30,7 +30,8 @@ public class MoveListener : MonoBehaviour
 
         	if (targetObject)
 	        {
-	        	Debug.Log(targetObject.gameObject.name + " Picked up");
+	        	//Debug.Log(targetObject.gameObject.name + " Picked up");
+
 	            selectedObject = targetObject.transform.gameObject;
 	            offset = selectedObject.transform.position - mousePos;
 	        }
@@ -43,7 +44,7 @@ public class MoveListener : MonoBehaviour
 
 
         if (Input.GetMouseButtonDown(0) && selectedObject && holding) {
-	        	Debug.Log(targetObject.gameObject.name + " Dropped");
+	        	//Debug.Log(targetObject.gameObject.name + " Dropped");
 
 	            selectedObject.transform.position = mousePos + offset;
 	            selectedObject = null;
