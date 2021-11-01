@@ -45,5 +45,9 @@ public class GameManager : MonoBehaviour
     	}
     	Debug.Log("It is player " + curPlayer + "'s turn.");
     }
+
+    public int getTurn() {
+    	return curPlayer;
+    }
     
 }
