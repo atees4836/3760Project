@@ -60,11 +60,26 @@ public class Board : MonoBehaviour
         return null;
     }
 
-    private void Move () {
+    private bool Move () {
+
+        if (toWhiteTile() == false) {
+            Undo();
+            return false;
+        }
         dest.showPiece(start.getColour());
         start.showPiece(0);
 
         Undo();
+
+        return true;
+    }
+
+    private bool toWhiteTile() {
+
+        if ((dest.getCol() % 2 == 0 && dest.getRow() % 2 == 0) || (dest.getCol() % 2 != 0 && dest.getRow() % 2 != 0)) {
+            return true;
+        }
+        return false;
     }
 
     private void Undo () {
@@ -88,12 +103,15 @@ public class Board : MonoBehaviour
                 } else { 
                     Debug.Log("" + start.getCol() + " " + start.getRow() + " chosen as start position.");
                 }
-            } else if (start != null) {
+            } 
+            else if (start != null) {
                 dest = getSelectedTile();
                 if (dest != null) {
                     Debug.Log("" + dest.getCol() + " " + dest.getRow() + " chosen as end position.");
-                    Move();
-                    gameManager.turnSwitch();
+
+                    if (Move() == true){
+                        gameManager.turnSwitch();
+                    }
                 } else {
                     Undo();
                 }
