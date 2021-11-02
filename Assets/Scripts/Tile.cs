@@ -59,6 +59,14 @@ public class Tile : MonoBehaviour
     	return pieceColour;
     }
 
+    public void highLight() {
+    	_highlight.SetActive(true); 	
+    }
+
+    public void unHighLight() {
+    	_highlight.SetActive(false);  
+    }
+
     void OnMouseEnter () {
     	_highlight.SetActive(true);
     }
