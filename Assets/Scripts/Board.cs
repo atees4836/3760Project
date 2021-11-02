@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,8 @@ public class Board : MonoBehaviour
     private Tile[,] grid = new Tile[8, 8];
     private Tile start;
     private Tile dest; 
+    private Tile left;
+    private Tile right;
     [SerializeField] private Tile tile;
 
     public void initBoard() {
@@ -60,9 +63,61 @@ public class Board : MonoBehaviour
         return null;
     }
 
+    private void showMoves() {
+        int x = start.getCol();
+        int y = start.getRow();
+
+        if (gameManager.getTurn() == 1) {
+            if (boundCheck(x - 1)) {
+            left = grid[x - 1, y + 1];
+            }
+            if (boundCheck(x + 1)) {
+            right = grid[x + 1, y + 1];
+            }
+        } else if (gameManager.getTurn() == 2) {
+            if (boundCheck(x - 1)) {
+            left = grid[x - 1, y - 1];
+            }
+            if (boundCheck(x + 1)) {
+            right =grid[x + 1, y - 1]; 
+            }
+        }
+
+        if (left) {
+            left.highLight();
+        }
+        if (right) {
+            right.highLight();
+        }
+
+    }
+
+    private bool boundCheck(int coord) {
+        if (coord > 0 && coord < 7) {
+            return true;
+        }
+        return false;
+    }
+
+    private bool moveCheck() {
+        int deltaX = Math.Abs(start.getRow() - dest.getRow());
+        int deltaY = Math.Abs(start.getCol() - dest.getCol());
+
+        if (deltaX == 1 && deltaY == 1) {
+            return true;
+        }
+        return false;
+    }
+
+    //make a bool, should not call turnswitch
     private void Move () {
-        dest.showPiece(start.getColour());
-        start.showPiece(0);
+        //Empty square
+        if (dest.getColour() == 0 && moveCheck()) {
+            Debug.Log("Player " + gameManager.getTurn() +  " Move their piece moved to an empty square");
+            dest.showPiece(start.getColour());
+            start.showPiece(0);
+            gameManager.turnSwitch();
+        }
 
         Undo();
     }
@@ -71,9 +126,18 @@ public class Board : MonoBehaviour
         start.setClicked(false);
         start = null;
 
-        if (dest != null) {
+        if (dest) {
             dest.setClicked(false);
             dest = null;
+        }
+
+        if (left) {
+            left.unHighLight();
+            left = null;
+        }
+        if (right) {
+            right.unHighLight();
+            right = null;
         }
 
     }
@@ -85,20 +149,21 @@ public class Board : MonoBehaviour
                 if (start.getColour() != gameManager.getTurn()) {
                     Debug.Log("Not your turn.");
                     Undo();
-                } else { 
-                    Debug.Log("" + start.getCol() + " " + start.getRow() + " chosen as start position.");
                 }
             } else if (start != null) {
                 dest = getSelectedTile();
                 if (dest != null) {
-                    Debug.Log("" + dest.getCol() + " " + dest.getRow() + " chosen as end position.");
                     Move();
-                    gameManager.turnSwitch();
                 } else {
                     Undo();
                 }
             }
         }
+
+        if (start) {
+            showMoves();
+        } 
+
     }
 
 }
