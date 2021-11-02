@@ -99,27 +99,117 @@ public class Board : MonoBehaviour
         return false;
     }
 
-    private bool moveCheck() {
-        int deltaX = Math.Abs(start.getRow() - dest.getRow());
-        int deltaY = Math.Abs(start.getCol() - dest.getCol());
 
-        if (deltaX == 1 && deltaY == 1) {
-            return true;
+    //Checks if selected move is valid 
+    private bool Move () {
+
+        bool capture = false;
+
+        //Check if destination tile is empty
+        if (checkEmptyTile() == false) {
+            Undo();
+            return false;
         }
-        return false;
-    }
+        //Checks movement logic 
+        if (checkBasicStep() == true){
+            Debug.Log("Player " + gameManager.getTurn() + " Move their piece moved to an empty square");
+        }
+        else if (checkBasicCapture() == true) {
+            capture = true;
+        }
+        else
+        {
+            Undo();
+            return false;
+        }
 
-    //make a bool, should not call turnswitch
-    private void Move () {
-        //Empty square
-        if (dest.getColour() == 0 && moveCheck()) {
-            Debug.Log("Player " + gameManager.getTurn() +  " Move their piece moved to an empty square");
+
+        if (capture == true){
+            removePiece();
             dest.showPiece(start.getColour());
             start.showPiece(0);
-            gameManager.turnSwitch();
+            Undo();
+        }
+        else{
+            dest.showPiece(start.getColour());
+            start.showPiece(0);
+            Undo();
+        }
+        return true;
+    }
+
+    //checks if destination tile is empty
+    private bool checkEmptyTile() {
+        if (dest.getColour() != 0) {
+            Debug.Log("Selected destination tile is already occupied");
+            return false;
+        }
+        return true;
+    }
+
+    //Movement check for basic piece moving forward
+    private bool checkBasicStep() {
+
+        int deltaX = (start.getRow() - dest.getRow());
+        int deltaY = (start.getCol() - dest.getCol());
+        //Checks if piece is basic 
+        if (start.getColour() != 1 && start.getColour() != 2) {
+            return false;
+        }
+        //Checks if piece is moving by one square
+        if (Math.Abs(deltaX) != 1 || Math.Abs(deltaY) != 1) {
+            return false;
+        }
+        //Checks if piece is moving forward 
+        if ((start.getColour() == 1) && (deltaX > 0)){
+            return false;
+        }
+        else if ((start.getColour() == 2) && (deltaX < 0)) {
+            return false;
+        }
+        
+        return true;
+    }
+
+    private bool checkBasicCapture() {
+        
+        int deltaX = (start.getRow() - dest.getRow());
+        int deltaY = (start.getCol() - dest.getCol());
+        int captureX = (start.getRow() + dest.getRow())/ 2;
+        int captureY = (start.getCol() + dest.getCol()) / 2;
+        //Checks if piece is basic 
+        if (start.getColour() != 1 && start.getColour() != 2)
+        {
+            return false;
+        }
+        //Checks if piece is moving by two squares
+        if (Math.Abs(deltaX) != 2 || Math.Abs(deltaY) != 2) {
+            return false;
+        }
+        //Checks if piece is moving forward 
+        if ((start.getColour() == 1) && (deltaX > 0))
+        {
+            return false;
+        }
+        else if ((start.getColour() == 2) && (deltaX < 0))
+        {
+            return false;
+        }
+        //Check for piece to capture
+        if ((grid[captureY, captureX].getColour() == start.getColour()) || (grid[captureY, captureX].getColour() == 0)) {
+            return false;
         }
 
-        Undo();
+        return true;
+    }
+
+    private void removePiece() {
+        int captureX = (start.getRow() + dest.getRow())/ 2;
+        int captureY = (start.getCol() + dest.getCol()) / 2;
+
+        grid[captureY, captureX].showPiece(0);
+
+        return;
     }
 
     private void Undo () {
@@ -153,7 +243,12 @@ public class Board : MonoBehaviour
             } else if (start != null) {
                 dest = getSelectedTile();
                 if (dest != null) {
-                    Move();
+
+                    //switch player turn if move is valid
+                    if (Move() == true) {
+                        gameManager.turnSwitch();
+                    }
+
                 } else {
                     Undo();
                 }
