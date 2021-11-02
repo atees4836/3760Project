@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Name1Propogate : MonoBehaviour
+public class Name1Propagate : MonoBehaviour
 {
     // Start is called before the first frame update
     private string player1Name;

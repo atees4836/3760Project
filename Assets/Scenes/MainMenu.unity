@@ -250,7 +250,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1791484579}
-        m_TargetAssemblyTypeName: NewGameSceneChange, Assembly-CSharp
+        m_TargetAssemblyTypeName: NamesSceneChange, Assembly-CSharp
         m_MethodName: NextScene
         m_Mode: 1
         m_Arguments:
@@ -1303,7 +1303,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1791484578}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15b7f70d2f65df44c8b1734dee497a2b, type: 3}
+  m_Script: {fileID: 11500000, guid: 97720e40812dccf49bd279caada2aac4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &1791484580
