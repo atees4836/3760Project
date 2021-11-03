@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
 
 	private Player red;
 	private Player black;
-	private int curPlayer = 1;
+	private int curPlayer = 2;
 
 	public GameObject blackPiece;
 	public GameObject redPiece;
