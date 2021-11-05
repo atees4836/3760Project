@@ -17,11 +17,12 @@ public class StoreName2 : MonoBehaviour
 
     }
 
-    public void displayText(string s) {
+    // Store name inputted by user in player 2 name slot
+    public void DisplayText(string s) {
         Name2 = s;
-        Debug.Log(Name2);
     }
 
+    // Save player 2 name to user's local files
     void OnDisable() {
         PlayerPrefs.SetString("name2", Name2);
     }

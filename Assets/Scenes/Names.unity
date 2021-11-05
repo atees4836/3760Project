@@ -298,7 +298,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1148764324}
         m_TargetAssemblyTypeName: StoreName2, Assembly-CSharp
-        m_MethodName: displayText
+        m_MethodName: DisplayText
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -536,7 +536,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1101743511}
         m_TargetAssemblyTypeName: StoreName1, Assembly-CSharp
-        m_MethodName: displayText
+        m_MethodName: DisplayText
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
