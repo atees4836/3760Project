@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-
 	public static GameManager instance;
 
 	public Board board;
@@ -16,12 +15,12 @@ public class GameManager : MonoBehaviour
 	public GameObject blackPiece;
 	public GameObject redPiece;
 
-
-
-	void Awake() {
+	void Awake()
+	{
 		instance = this;
 	}
 
+	// Set Players on start
     void Start()
     {
     	red = new Player("red", 1);
@@ -29,23 +28,32 @@ public class GameManager : MonoBehaviour
 
     	Debug.Log("It is player " + curPlayer + "'s turn.");
 
-    	setup();
+    	SetUp();
     }
 
-    private void setup() {
-    	board.initBoard();
+	// Sets board to start state
+    private void SetUp()
+	{
+    	board.InitBoard();
     }
 
-    public void turnSwitch() {
-    	if (curPlayer == 1) {
+	// Switches player turn 
+    public void TurnSwitch()
+	{
+    	if (curPlayer == 1)
+		{
     		curPlayer = 2;
-    	} else if (curPlayer == 2) {
+    	}
+		else if (curPlayer == 2)
+		{
     		curPlayer = 1;
     	}
     	Debug.Log("It is player " + curPlayer + "'s turn.");
     }
 
-    public int getTurn() {
+	// Return current player
+    public int GetTurn()
+	{
     	return curPlayer;
     }
     
