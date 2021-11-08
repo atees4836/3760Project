@@ -286,10 +286,13 @@ public class Board : MonoBehaviour
             if (start == null)
             {
                 start = GetSelectedTile();
-                if (start.GetColour() != gameManager.GetTurn())
+                if(start)
                 {
-                    Debug.Log("Not your turn.");
-                    Undo();
+                    if (start.GetColour() != gameManager.GetTurn())
+                    {
+                        Debug.Log("Not your turn.");
+                        Undo();
+                    }
                 }
             } else if (start != null)
             {
