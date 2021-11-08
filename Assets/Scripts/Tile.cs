@@ -13,69 +13,98 @@ public class Tile : MonoBehaviour
 	private int col, row, pieceColour;
 	private bool clicked = false;
 
-    public void Init (bool isOdd, int col, int row) {
+	// Initialises Tile
+    public void Init (bool isOdd, int col, int row)
+	{
     	_renderer.color = isOdd ? _offsetColor : _baseColor;
     	this.col = col;
     	this.row = row;
     }
 
 
-    //red = 1, black = 2
-    public void showPiece(int colour) {
+    // Places piece on tile: red = 1, black = 2
+    public void ShowPiece(int colour)
+	{
     	if (colour == 0) {
     		pieceColour = 0;
       		redPiece.SetActive(false);
       		blackPiece.SetActive(false);  		
-    	} else if (colour == 1) {
+    	} 
+		else if (colour == 1)
+		{
     		pieceColour = 1;
     		redPiece.SetActive(true);
-    	} else if (colour == 2) {
+    	} 
+		else if (colour == 2)
+		{
     		pieceColour = 2;
     		blackPiece.SetActive(true);
     	}
     }
 
-    public void setClicked(bool clicked) {
+	// Sets tile clicked state
+    public void SetClicked(bool clicked)
+	{
     	this.clicked = clicked;
     }
 
-    public bool getClicked() {
+	// Returns tile clicked state
+    public bool GetClicked()
+	{
     	return clicked;
     }
 
-    public int getCol() {
+	// Returns tile column
+    public int GetCol()
+	{
     	return col;
     }
 
-    public int getRow() {
+	// Returns tile row
+    public int GetRow() 
+	{
     	return row;
     }
 
-    public void setColour(int colour) {
+	// Sets piece colour
+    public void SetColour(int colour) 
+	{
     	pieceColour = colour;
     }
 
-    public int getColour() {
+	// Returns piece colour
+    public int GetColour()
+	{
     	return pieceColour;
     }
 
-    public void highLight() {
+	// Sets highlight state to true
+    public void Highlight()
+	{
     	_highlight.SetActive(true); 	
     }
 
-    public void unHighLight() {
+	// Sets highlight state to false
+    public void Unhighlight()
+	{
     	_highlight.SetActive(false);  
     }
 
-    void OnMouseEnter () {
+	// Sets highlight on when mouse is over tile
+    void OnMouseEnter()
+	{
     	_highlight.SetActive(true);
     }
 
-    void OnMouseDown() {
+	// Sets clicked when tile is clicked
+    void OnMouseDown() 
+	{
     	clicked = true;
     }
 
-    void OnMouseExit () {
+	// Sets highlight off when mouse leaves tile
+    void OnMouseExit() 
+	{
     	_highlight.SetActive(false);    	
     }
 }

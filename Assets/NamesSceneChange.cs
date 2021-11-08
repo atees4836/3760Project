@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class NamesSceneChange : MonoBehaviour
 {
+    // Load names scene when new game button is pressed
     public void NextScene()
     {
         SceneManager.LoadScene("Names");

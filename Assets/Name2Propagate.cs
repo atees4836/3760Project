@@ -18,7 +18,9 @@ public class Name2Propagate : MonoBehaviour
         
     }
 
-    void OnEnable() {
+    // Load player 2 name from local files 
+    void OnEnable() 
+    {
         player2Name =  PlayerPrefs.GetString("name2");
         transform.gameObject.GetComponent<Text>().text = "Player 2: " + player2Name;
     }

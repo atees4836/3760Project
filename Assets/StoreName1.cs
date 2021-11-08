@@ -17,10 +17,13 @@ public class StoreName1 : MonoBehaviour
 
     }
 
-    public void displayText(string s) {
+    // Store name inputted by user in player 1 name slot
+    public void DisplayText(string s)
+    {
         Name1 = s;
     }
 
+    // Save player 1 name to user's local files
     void OnDisable() {
         PlayerPrefs.SetString("name1", Name1);
     }

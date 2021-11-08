@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class Name1Propagate : MonoBehaviour
 {
-    // Start is called before the first frame update
     private string player1Name;
+    // Start is called before the first frame update
     void Start()
     {
         
@@ -18,7 +18,9 @@ public class Name1Propagate : MonoBehaviour
         
     }
 
-    void OnEnable() {
+    // Load player 1 name from user local files
+    void OnEnable() 
+    {
         player1Name =  PlayerPrefs.GetString("name1");
         transform.gameObject.GetComponent<Text>().text = "Player 1: " + player1Name;
     }

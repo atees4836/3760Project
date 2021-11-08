@@ -13,22 +13,30 @@ public class Board : MonoBehaviour
     private Tile left;
     private Tile right;
     [SerializeField] private Tile tile;
-
-    public void initBoard() {
+  
+    // Sets up game board with pieces
+    public void InitBoard() 
+    {
         gameManager = FindObjectOfType<GameManager>();
 
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
+        for (int i = 0; i < 8; i++) 
+        {
+            for (int j = 0; j < 8; j++) 
+            {
                 var newTile = Instantiate(tile, new Vector3 (50 + (i * 100), 840 - (j * 100)), Quaternion.identity);
                 newTile.name = $"tile {i} {j}";
-
-                if (j < 3) {
-                    if ((i % 2 != 0 && j % 2 != 0) || (i % 2 == 0 && j % 2 == 0)) {
-                        newTile.showPiece(1);
+                // Add pieces to gameboard
+                if (j < 3) 
+                {
+                    if ((i % 2 != 0 && j % 2 != 0) || (i % 2 == 0 && j % 2 == 0)) 
+                    {
+                        newTile.ShowPiece(1);
                     }
-                } else if (j > 4) {
-                    if ((i % 2 != 0 && j % 2 != 0) || (i % 2 == 0 && j % 2 == 0)) {
-                        newTile.showPiece(2);
+                } else if (j > 4) 
+                {
+                    if ((i % 2 != 0 && j % 2 != 0) || (i % 2 == 0 && j % 2 == 0)) 
+                    {
+                        newTile.ShowPiece(2);
                     }
                 }
 
@@ -40,20 +48,22 @@ public class Board : MonoBehaviour
         }
 
     }
-    
-    public GameObject DrawSquare (GameObject prefab, int col, int row) {
-    	Vector3 vec = new Vector3 (col, row, -10);
-        GameObject newTile = Instantiate(prefab, vec, Quaternion.identity);
-        return newTile;
-    }
 
-    private Tile getSelectedTile() {
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                if (start == null && grid[i, j].getClicked()) {
+    // Finds last tile clicked by the user
+    private Tile GetSelectedTile() 
+    {
+        for (int i = 0; i < 8; i++) 
+        {
+            for (int j = 0; j < 8; j++) 
+            {
+                if (start == null && grid[i, j].GetClicked()) 
+                {
                     return grid[i, j];
-                } else {
-                    if (grid[i, j].getClicked() && !(start.getCol() == i && start.getRow() == j)) {
+                }
+                else 
+                {
+                    if (grid[i, j].GetClicked() && !(start.GetCol() == i && start.GetRow() == j)) 
+                    {
                         return grid[i, j];
                     }
                 }
@@ -63,37 +73,51 @@ public class Board : MonoBehaviour
         return null;
     }
 
-    private void showMoves() {
-        int x = start.getCol();
-        int y = start.getRow();
+    // Highlights posible moves
+    private void ShowMoves() 
+    {
+        int x = start.GetCol();
+        int y = start.GetRow();
 
-        if (gameManager.getTurn() == 1) {
-            if (boundCheck(x - 1)) {
-            left = grid[x - 1, y + 1];
+        if (gameManager.GetTurn() == 1) 
+        {
+            if (BoundCheck(x - 1)) 
+            {
+                left = grid[x - 1, y + 1];
             }
-            if (boundCheck(x + 1)) {
-            right = grid[x + 1, y + 1];
+            if (BoundCheck(x + 1)) 
+            {
+                right = grid[x + 1, y + 1];
             }
-        } else if (gameManager.getTurn() == 2) {
-            if (boundCheck(x - 1)) {
-            left = grid[x - 1, y - 1];
+        } 
+        else if (gameManager.GetTurn() == 2) 
+        {
+            if (BoundCheck(x - 1)) 
+            {
+                left = grid[x - 1, y - 1];
             }
-            if (boundCheck(x + 1)) {
-            right =grid[x + 1, y - 1]; 
+            if (BoundCheck(x + 1)) 
+            {
+                right =grid[x + 1, y - 1]; 
             }
         }
 
-        if (left) {
-            left.highLight();
+        if (left) 
+        {
+            left.Highlight();
         }
-        if (right) {
-            right.highLight();
+        if (right) 
+        {
+            right.Highlight();
         }
 
     }
 
-    private bool boundCheck(int coord) {
-        if (coord > 0 && coord < 7) {
+    // Checks if coord is outside of game board
+    private bool BoundCheck(int coord) 
+    {
+        if (coord > 0 && coord < 7) 
+        {
             return true;
         }
         return false;
@@ -101,20 +125,23 @@ public class Board : MonoBehaviour
 
 
     //Checks if selected move is valid 
-    private bool Move () {
-
+    private bool Move () 
+    {
         bool capture = false;
 
         //Check if destination tile is empty
-        if (checkEmptyTile() == false) {
+        if (CheckEmptyTile() == false) 
+        {
             Undo();
             return false;
         }
         //Checks movement logic 
-        if (checkBasicStep() == true){
-            Debug.Log("Player " + gameManager.getTurn() + " Move their piece moved to an empty square");
+        if (CheckBasicStep() == true)
+        {
+            Debug.Log("Player " + gameManager.GetTurn() + " Move their piece moved to an empty square");
         }
-        else if (checkBasicCapture() == true) {
+        else if (CheckBasicCapture() == true) 
+        {
             capture = true;
         }
         else
@@ -123,24 +150,28 @@ public class Board : MonoBehaviour
             return false;
         }
 
-
-        if (capture == true){
-            removePiece();
-            dest.showPiece(start.getColour());
-            start.showPiece(0);
+        // If capture flag is set capture piece 
+        if (capture == true)
+        {
+            RemovePiece();
+            dest.ShowPiece(start.GetColour());
+            start.ShowPiece(0);
             Undo();
         }
-        else{
-            dest.showPiece(start.getColour());
-            start.showPiece(0);
+        else
+        {
+            dest.ShowPiece(start.GetColour());
+            start.ShowPiece(0);
             Undo();
         }
         return true;
     }
 
     //checks if destination tile is empty
-    private bool checkEmptyTile() {
-        if (dest.getColour() != 0) {
+    private bool CheckEmptyTile() 
+    {
+        if (dest.GetColour() != 0) 
+        {
             Debug.Log("Selected destination tile is already occupied");
             return false;
         }
@@ -148,115 +179,140 @@ public class Board : MonoBehaviour
     }
 
     //Movement check for basic piece moving forward
-    private bool checkBasicStep() {
+    private bool CheckBasicStep()
+    {
 
-        int deltaX = (start.getRow() - dest.getRow());
-        int deltaY = (start.getCol() - dest.getCol());
+        int deltaX = (start.GetRow() - dest.GetRow());
+        int deltaY = (start.GetCol() - dest.GetCol());
         //Checks if piece is basic 
-        if (start.getColour() != 1 && start.getColour() != 2) {
+        if (start.GetColour() != 1 && start.GetColour() != 2)
+        {
             return false;
         }
         //Checks if piece is moving by one square
-        if (Math.Abs(deltaX) != 1 || Math.Abs(deltaY) != 1) {
+        if (Math.Abs(deltaX) != 1 || Math.Abs(deltaY) != 1)
+        {
             return false;
         }
         //Checks if piece is moving forward 
-        if ((start.getColour() == 1) && (deltaX > 0)){
+        if ((start.GetColour() == 1) && (deltaX > 0))
+        {
             return false;
         }
-        else if ((start.getColour() == 2) && (deltaX < 0)) {
+        else if ((start.GetColour() == 2) && (deltaX < 0))
+        {
             return false;
         }
         
         return true;
     }
 
-    private bool checkBasicCapture() {
-        
-        int deltaX = (start.getRow() - dest.getRow());
-        int deltaY = (start.getCol() - dest.getCol());
-        int captureX = (start.getRow() + dest.getRow())/ 2;
-        int captureY = (start.getCol() + dest.getCol()) / 2;
+    // Check for testing if basic piece is making a valid capture
+    private bool CheckBasicCapture()
+    {   
+        int deltaX = (start.GetRow() - dest.GetRow());
+        int deltaY = (start.GetCol() - dest.GetCol());
+        int captureX = (start.GetRow() + dest.GetRow())/ 2;
+        int captureY = (start.GetCol() + dest.GetCol()) / 2;
         //Checks if piece is basic 
-        if (start.getColour() != 1 && start.getColour() != 2)
+        if (start.GetColour() != 1 && start.GetColour() != 2)
         {
             return false;
         }
         //Checks if piece is moving by two squares
-        if (Math.Abs(deltaX) != 2 || Math.Abs(deltaY) != 2) {
-            return false;
-        }
-        //Checks if piece is moving forward 
-        if ((start.getColour() == 1) && (deltaX > 0))
+        if (Math.Abs(deltaX) != 2 || Math.Abs(deltaY) != 2)
         {
             return false;
         }
-        else if ((start.getColour() == 2) && (deltaX < 0))
+        //Checks if piece is moving forward 
+        if ((start.GetColour() == 1) && (deltaX > 0))
+        {
+            return false;
+        }
+        else if ((start.GetColour() == 2) && (deltaX < 0))
         {
             return false;
         }
         //Check for piece to capture
-        if ((grid[captureY, captureX].getColour() == start.getColour()) || (grid[captureY, captureX].getColour() == 0)) {
+        if ((grid[captureY, captureX].GetColour() == start.GetColour()) || (grid[captureY, captureX].GetColour() == 0))
+        {
             return false;
         }
 
         return true;
     }
 
-    private void removePiece() {
-        int captureX = (start.getRow() + dest.getRow())/ 2;
-        int captureY = (start.getCol() + dest.getCol()) / 2;
+    // Removes piece between start and destination tiles
+    private void RemovePiece() 
+    {
+        int captureX = (start.GetRow() + dest.GetRow())/ 2;
+        int captureY = (start.GetCol() + dest.GetCol()) / 2;
 
-        grid[captureY, captureX].showPiece(0);
+        grid[captureY, captureX].ShowPiece(0);
 
         return;
     }
 
-    private void Undo () {
-        start.setClicked(false);
+    // Unselects start and destination tiles
+    private void Undo ()
+    {
+        start.SetClicked(false);
         start = null;
 
-        if (dest) {
-            dest.setClicked(false);
+        if (dest) 
+        {
+            dest.SetClicked(false);
             dest = null;
         }
 
-        if (left) {
-            left.unHighLight();
+        if (left)
+        {
+            left.Unhighlight();
             left = null;
         }
-        if (right) {
-            right.unHighLight();
+        if (right)
+        {
+            right.Unhighlight();
             right = null;
         }
 
     }
 
-    void Update() {
-        if(Input.GetMouseButtonDown(0)) {
-            if (start == null) {
-                start = getSelectedTile();
-                if (start.getColour() != gameManager.getTurn()) {
+    // Updates game state
+    void Update()
+    {
+        if(Input.GetMouseButtonDown(0))
+        {
+            if (start == null)
+            {
+                start = GetSelectedTile();
+                if (start.GetColour() != gameManager.GetTurn())
+                {
                     Debug.Log("Not your turn.");
                     Undo();
                 }
-            } else if (start != null) {
-                dest = getSelectedTile();
-                if (dest != null) {
-
+            } else if (start != null)
+            {
+                dest = GetSelectedTile();
+                if (dest != null)
+                {
                     //switch player turn if move is valid
-                    if (Move() == true) {
-                        gameManager.turnSwitch();
+                    if (Move() == true)
+                    {
+                        gameManager.TurnSwitch();
                     }
 
-                } else {
+                }
+                else 
+                {
                     Undo();
                 }
             }
         }
 
-        if (start) {
-            showMoves();
+        if (start) 
+        {
+            ShowMoves();
         } 
 
     }
