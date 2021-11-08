@@ -12,8 +12,12 @@ public class IngameButtonBehaviour : MonoBehaviour
 
     public void EndGame()
     {
-        if(EditorUtility.DisplayDialog("End Game?", "Are you sure you want to end the game?","I'm sure", "Cancel"))
+        if(EditorUtility.DisplayDialog("End Game", "Choose a winner:","Red won", "Black won"))
         {
+            EditorUtility.DisplayDialog("Red Won!", "Congratulations!","Return to menu");
+            SceneManager.LoadScene("MainMenu");
+        } else{
+            EditorUtility.DisplayDialog("Black Won!", "Congratulations!","Return to menu");
             SceneManager.LoadScene("MainMenu");
         }
     }
