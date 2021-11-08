@@ -5,7 +5,6 @@ using UnityEditor;
 
 public class IngameButtonBehaviour : MonoBehaviour
 {
-    // Returns to main menu
     public void LoadMenu()
     {
         SceneManager.LoadScene("MainMenu");
@@ -13,6 +12,9 @@ public class IngameButtonBehaviour : MonoBehaviour
 
     public void EndGame()
     {
-        SceneManager.LoadScene("MainMenu");
+        if(EditorUtility.DisplayDialog("End Game?", "Are you sure you want to end the game?","I'm sure", "Cancel"))
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
     }
 }
