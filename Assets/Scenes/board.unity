@@ -421,6 +421,8 @@ MonoBehaviour:
   board: {fileID: 1537037702}
   blackPiece: {fileID: 8406445562856619522, guid: 2f7f4555904bfb64bb2b2a3a0f1839c6, type: 3}
   redPiece: {fileID: 5022866675478635970, guid: b7f9ec73f916a9849aae35ad0efcc133, type: 3}
+  blackKing: {fileID: 3015291399800258881, guid: ae65ea1d37a59c24a97f94624049ed6f, type: 3}
+  redKing: {fileID: 8818106823298190966, guid: ae5646a111771d843ab226c165a99dda, type: 3}
 --- !u!1 &689133158
 GameObject:
   m_ObjectHideFlags: 0
@@ -936,7 +938,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3927a24f44c4df44587bca68048311cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedObject: {fileID: 0}
 --- !u!114 &1537037702
 MonoBehaviour:
   m_ObjectHideFlags: 0

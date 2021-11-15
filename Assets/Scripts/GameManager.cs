@@ -15,8 +15,8 @@ public class GameManager : MonoBehaviour
 
 	public GameObject blackPiece;
 	public GameObject redPiece;
-
-
+	public GameObject blackKing;
+	public GameObject redKing;
 
 	void Awake() {
 		instance = this;

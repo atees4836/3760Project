@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/* The board class stores an array of Tiles which represents the game board. The class hosts functions that render the board
+   and implement piece movement/capturing. */
+
 public class Board : MonoBehaviour
 {
     GameManager gameManager;
@@ -14,14 +17,18 @@ public class Board : MonoBehaviour
     private Tile right;
     [SerializeField] private Tile tile;
 
+    //Instantiates all 64 tiles and arranges them into the appropriate board. It is called once at the start of each game.
     public void initBoard() {
         gameManager = FindObjectOfType<GameManager>();
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
+
+                //Draw the tile to the screen
                 var newTile = Instantiate(tile, new Vector3 (50 + (i * 100), 840 - (j * 100)), Quaternion.identity);
                 newTile.name = $"tile {i} {j}";
 
+                //Draw a piece on the appropriate tile
                 if (j < 3) {
                     if ((i % 2 != 0 && j % 2 != 0) || (i % 2 == 0 && j % 2 == 0)) {
                         newTile.showPiece(1);
@@ -34,22 +41,21 @@ public class Board : MonoBehaviour
 
                 grid[i,j] = newTile;
 
+                //Alternate black and white
                 var isOdd = (i % 2 == 0 && j % 2 != 0) || (i % 2 != 0 && j % 2 == 0); 
                 newTile.Init(isOdd, i, j);
             }
         }
 
     }
-    
-    public GameObject DrawSquare (GameObject prefab, int col, int row) {
-    	Vector3 vec = new Vector3 (col, row, -10);
-        GameObject newTile = Instantiate(prefab, vec, Quaternion.identity);
-        return newTile;
-    }
 
+    /*Searches the board for a tile that the player has chosen and returns a referance to it.
+      Returns null if no such tile exists.*/
     private Tile getSelectedTile() {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
+
+                //Selects either a start tile, or a destination tile
                 if (start == null && grid[i, j].getClicked()) {
                     return grid[i, j];
                 } else {
@@ -57,16 +63,19 @@ public class Board : MonoBehaviour
                         return grid[i, j];
                     }
                 }
+
             }
         }
         Debug.Log("WARNING NULL TILE");
         return null;
     }
 
+    //Highlights tiles for which a selected pieces may move.
     private void showMoves() {
         int x = start.getCol();
         int y = start.getRow();
 
+        //Search for which tile is valid
         if (gameManager.getTurn() == 1) {
             if (boundCheck(x - 1)) {
             left = grid[x - 1, y + 1];
@@ -83,6 +92,7 @@ public class Board : MonoBehaviour
             }
         }
 
+        //Highlight the selected tiles
         if (left) {
             left.highLight();
         }
@@ -92,6 +102,7 @@ public class Board : MonoBehaviour
 
     }
 
+    //Helper to decide whether a coordinate is within appropriate bounds
     private bool boundCheck(int coord) {
         if (coord > 0 && coord < 7) {
             return true;
@@ -112,7 +123,7 @@ public class Board : MonoBehaviour
         }
         //Checks movement logic 
         if (checkBasicStep() == true){
-            Debug.Log("Player " + gameManager.getTurn() + " Move their piece moved to an empty square");
+            Debug.Log("Player " + gameManager.getTurn() + " Moved their piece moved to an empty square");
         }
         else if (checkBasicCapture() == true) {
             capture = true;
@@ -123,14 +134,15 @@ public class Board : MonoBehaviour
             return false;
         }
 
-
         if (capture == true){
             removePiece();
+            kingCheck();
             dest.showPiece(start.getColour());
             start.showPiece(0);
             Undo();
         }
         else{
+            kingCheck();
             dest.showPiece(start.getColour());
             start.showPiece(0);
             Undo();
@@ -147,6 +159,14 @@ public class Board : MonoBehaviour
         return true;
     }
 
+    private void kingCheck() {
+        if ((dest.getRow() == 7 && start.getColour() == 1) || (dest.getRow() == 0 && start.getColour() == 2) || (start.getKing())) {
+            Debug.Log("King event triggered");
+            Debug.Log(" " + dest.getCol() + ", " + dest.getRow());
+            dest.setKing();
+        }
+    }
+
     //Movement check for basic piece moving forward
     private bool checkBasicStep() {
 
@@ -161,13 +181,14 @@ public class Board : MonoBehaviour
             return false;
         }
         //Checks if piece is moving forward 
-        if ((start.getColour() == 1) && (deltaX > 0)){
-            return false;
+        if (start.getKing() == false) {
+            if ((start.getColour() == 1) && (deltaX > 0)){
+                return false;
+            }
+            else if ((start.getColour() == 2) && (deltaX < 0)) {
+                return false;
+            }
         }
-        else if ((start.getColour() == 2) && (deltaX < 0)) {
-            return false;
-        }
-        
         return true;
     }
 
@@ -203,6 +224,7 @@ public class Board : MonoBehaviour
         return true;
     }
 
+    //Removes a piece based off of the start and destination positions
     private void removePiece() {
         int captureX = (start.getRow() + dest.getRow())/ 2;
         int captureY = (start.getCol() + dest.getCol()) / 2;
@@ -255,9 +277,9 @@ public class Board : MonoBehaviour
             }
         }
 
-        if (start) {
+        /*if (start) {
             showMoves();
-        } 
+        }*/
 
     }
 
