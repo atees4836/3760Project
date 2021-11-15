@@ -170,7 +170,7 @@ public class Board : MonoBehaviour
     //checks if destination tile is empty
     private bool CheckEmptyTile() 
     {
-        if (dest.GetColour() != 0) 
+        if (dest.isOccupied()) 
         {
             Debug.Log("Selected destination tile is already occupied");
             return false;
@@ -278,6 +278,28 @@ public class Board : MonoBehaviour
 
     }
 
+    private bool NoLegalMoves()
+    {
+        for (int i = 0; i < 8; i++) 
+        {
+            for (int j = 0; j < 8; j++) 
+            {
+                tile = grid[i,j];
+                if (tile.GetColour() == gameManager.GetTurn())
+                {
+                    if(CheckBasicStep())
+                    {
+                        return false;
+                    } else if(CheckBasicCapture())
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
     // Updates game state
     void Update()
     {
@@ -318,6 +340,10 @@ public class Board : MonoBehaviour
             ShowMoves();
         } 
 
+        // if(NoLegalMoves())
+        // {
+        //     gameManager.EndGame();
+        // }
     }
 
 }

@@ -90,6 +90,17 @@ public class Tile : MonoBehaviour
     	_highlight.SetActive(false);  
     }
 
+	public bool isOccupied()
+	{
+		if(this.pieceColour == 0)
+		{
+			return false;
+		} else
+		{
+			return true;
+		}
+	}
+
 	// Sets highlight on when mouse is over tile
     void OnMouseEnter()
 	{

@@ -57,4 +57,8 @@ public class GameManager : MonoBehaviour
     	return curPlayer;
     }
     
+	public void EndGame()
+	{
+		Debug.Log("No legal moves remain");
+	}
 }
