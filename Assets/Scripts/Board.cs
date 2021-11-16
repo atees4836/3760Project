@@ -181,9 +181,14 @@ public class Board : MonoBehaviour
     //Movement check for basic piece moving forward
     private bool CheckBasicStep()
     {
-
-        int deltaX = (start.GetRow() - dest.GetRow());
-        int deltaY = (start.GetCol() - dest.GetCol());
+        int deltaX,deltaY;
+        if(start && dest)
+        {
+            deltaX = (start.GetRow() - dest.GetRow());
+            deltaY = (start.GetCol() - dest.GetCol());
+        } else {
+            return false;
+        }
         //Checks if piece is basic 
         if (start.GetColour() != 1 && start.GetColour() != 2)
         {
@@ -210,10 +215,16 @@ public class Board : MonoBehaviour
     // Check for testing if basic piece is making a valid capture
     private bool CheckBasicCapture()
     {   
-        int deltaX = (start.GetRow() - dest.GetRow());
-        int deltaY = (start.GetCol() - dest.GetCol());
-        int captureX = (start.GetRow() + dest.GetRow())/ 2;
-        int captureY = (start.GetCol() + dest.GetCol()) / 2;
+        int deltaX, deltaY, captureX, captureY;
+        if(start && dest)
+        {
+            deltaX = (start.GetRow() - dest.GetRow());
+            deltaY = (start.GetCol() - dest.GetCol());
+            captureX = (start.GetRow() + dest.GetRow())/ 2;
+            captureY = (start.GetCol() + dest.GetCol()) / 2;
+        } else {
+            return false;
+        }
         //Checks if piece is basic 
         if (start.GetColour() != 1 && start.GetColour() != 2)
         {
@@ -278,21 +289,133 @@ public class Board : MonoBehaviour
 
     }
 
+    private bool FindLegalMoveRed()
+    {
+        try
+        {
+            dest = grid[start.GetCol()+1,start.GetRow()+1];
+        } catch (IndexOutOfRangeException e)
+        {
+            Debug.Log("OutOfRange");
+        }
+        if(CheckBasicStep())
+        {
+            return true;
+        }
+        try
+        {
+            dest = grid[start.GetCol()+1,start.GetRow()-1];
+        } catch (IndexOutOfRangeException e)
+        {
+            Debug.Log("OutOfRange");
+        }
+        if(CheckBasicStep())
+        {
+            return true;
+        }
+        try
+        {
+            dest = grid[start.GetCol()+2,start.GetRow()-2];
+        } catch (IndexOutOfRangeException e)
+        {
+            Debug.Log("OutOfRange");
+        }
+        if(CheckBasicCapture())
+        {
+            return true;
+        }
+        try
+        {
+            dest = grid[start.GetCol()+2,start.GetRow()+2];
+        } catch (IndexOutOfRangeException e)
+        {
+            Debug.Log("OutOfRange");
+        }
+        if(CheckBasicCapture())
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private bool FindLegalMoveBlack()
+    {
+        try
+        {
+            dest = grid[start.GetCol()-1,start.GetRow()+1];
+        } catch (IndexOutOfRangeException e)
+        {
+            Debug.Log("OutOfRange");
+        }
+        if(CheckBasicStep())
+        {
+            return true;
+        }
+        try
+        {
+            dest = grid[start.GetCol()-1,start.GetRow()-1];
+        } catch (IndexOutOfRangeException e)
+        {
+            Debug.Log("OutOfRange");
+        }
+        if(CheckBasicStep())
+        {
+            return true;
+        }
+        try
+        {
+            dest = grid[start.GetCol()-2,start.GetRow()-2];
+        } catch (IndexOutOfRangeException e)
+        {
+            Debug.Log("OutOfRange");
+        }
+        if(CheckBasicCapture())
+        {
+            return true;
+        }
+        try
+        {
+            dest = grid[start.GetCol()-2,start.GetRow()+2];
+        } catch (IndexOutOfRangeException e)
+        {
+            Debug.Log("OuOfRange");
+        }
+        if(CheckBasicCapture())
+        {
+            return true;
+        }
+        return false;
+    }
+
     private bool NoLegalMoves()
     {
+        Tile tile = null;
         for (int i = 0; i < 8; i++) 
         {
             for (int j = 0; j < 8; j++) 
             {
-                tile = grid[i,j];
+                if(grid[i,j])
+                {
+                    tile = grid[i,j];
+                } else
+                {
+                    return true;
+                }
                 if (tile.GetColour() == gameManager.GetTurn())
                 {
-                    if(CheckBasicStep())
+                    start = tile;
+                    if(tile.GetColour() == 1)
                     {
-                        return false;
-                    } else if(CheckBasicCapture())
+                        if(FindLegalMoveRed())
+                        {
+                            return false;
+                        }
+                    } else if(tile.GetColour() == 2)
                     {
-                        return false;
+                        if(FindLegalMoveBlack())
+                        {
+                            return false;
+                        }
                     }
                 }
             }
@@ -340,10 +463,10 @@ public class Board : MonoBehaviour
             ShowMoves();
         } 
 
-        // if(NoLegalMoves())
-        // {
-        //     gameManager.EndGame();
-        // }
+        if(this.NoLegalMoves())
+        {
+            gameManager.EndGame();
+        }
     }
 
 }
