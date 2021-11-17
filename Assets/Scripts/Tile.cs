@@ -2,109 +2,112 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/* The tile class represents a single square on the board. It is responsible for keeping track of its own coordinates, colour,
+   and wheher or not a piece occupying it. Pieces and highlights are implemented as layers in the Unity editor. */
+
 public class Tile : MonoBehaviour
 {
 
 	[SerializeField] private Color _offsetColor, _baseColor;
 	[SerializeField] private SpriteRenderer _renderer;
 	[SerializeField] private GameObject _highlight; 
+
 	[SerializeField] private GameObject redPiece;
 	[SerializeField] private GameObject blackPiece;
+	[SerializeField] private GameObject redKing;
+	[SerializeField] private GameObject blackKing;	
+
 	private int col, row, pieceColour;
 	private bool clicked = false;
+	private bool isKing = false;
 
-	// Initialises Tile
-    public void Init (bool isOdd, int col, int row)
-	{
+	//Creates a tile with given colour and coordinates
+    public void Init (bool isOdd, int col, int row) {
     	_renderer.color = isOdd ? _offsetColor : _baseColor;
     	this.col = col;
     	this.row = row;
     }
 
 
-    // Places piece on tile: red = 1, black = 2
-    public void ShowPiece(int colour)
-	{
+    //Tells the piece what it should rendeer. no piece = 0, red = 1, black = 2
+    public void showPiece(int colour) {
     	if (colour == 0) {
     		pieceColour = 0;
       		redPiece.SetActive(false);
-      		blackPiece.SetActive(false);  		
-    	} 
-		else if (colour == 1)
-		{
+      		redKing.SetActive(false);
+      		blackPiece.SetActive(false); 
+      		blackKing.SetActive(false);
+    	} else if (colour == 1) {
     		pieceColour = 1;
-    		redPiece.SetActive(true);
-    	} 
-		else if (colour == 2)
-		{
+    		if (isKing) {
+    			redKing.SetActive(true);
+    		} else {
+    			redPiece.SetActive(true);
+    		}
+    	} else if (colour == 2) {
     		pieceColour = 2;
-    		blackPiece.SetActive(true);
+    		if (isKing) {
+    			blackKing.SetActive(true);
+    		} else {
+    			blackPiece.SetActive(true);
+    		}
     	}
     }
 
-	// Sets tile clicked state
-    public void SetClicked(bool clicked)
-	{
-    	this.clicked = clicked;
-    }
-
-	// Returns tile clicked state
-    public bool GetClicked()
-	{
-    	return clicked;
-    }
-
-	// Returns tile column
-    public int GetCol()
-	{
-    	return col;
-    }
-
-	// Returns tile row
-    public int GetRow() 
-	{
-    	return row;
-    }
-
-	// Sets piece colour
-    public void SetColour(int colour) 
-	{
-    	pieceColour = colour;
-    }
-
-	// Returns piece colour
-    public int GetColour()
-	{
-    	return pieceColour;
-    }
-
-	// Sets highlight state to true
-    public void Highlight()
-	{
+    //Highlights the tile manually
+    public void highLight() {
     	_highlight.SetActive(true); 	
     }
 
-	// Sets highlight state to false
-    public void Unhighlight()
-	{
+    //Removes highlight manually
+    public void unHighLight() {
     	_highlight.SetActive(false);  
     }
 
-	// Sets highlight on when mouse is over tile
-    void OnMouseEnter()
-	{
+    //Various getters and setters for tile attributes
+
+    public bool getClicked() {
+    	return clicked;
+    }
+
+    public void setClicked(bool clicked) {
+    	this.clicked = clicked;
+    }
+
+    public int getCol() {
+    	return col;
+    }
+
+    public int getRow() {
+    	return row;
+    }
+
+    public int getColour() {
+    	return pieceColour;
+    }
+
+    public void setColour(int colour) {
+    	pieceColour = colour;
+    }
+
+    public bool getKing() {
+    	return isKing;
+    }
+
+    public void setKing() {
+    	isKing = true;
+    }
+
+    //Implemented mouse functions
+    void OnMouseEnter () {
     	_highlight.SetActive(true);
     }
 
-	// Sets clicked when tile is clicked
-    void OnMouseDown() 
-	{
+    void OnMouseDown() {
     	clicked = true;
     }
 
-	// Sets highlight off when mouse leaves tile
-    void OnMouseExit() 
-	{
+    void OnMouseExit () {
     	_highlight.SetActive(false);    	
     }
 }
