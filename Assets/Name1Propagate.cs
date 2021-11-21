@@ -21,7 +21,15 @@ public class Name1Propagate : MonoBehaviour
     // Load player 1 name from user local files
     void OnEnable() 
     {
+        int gameNum;
+
         player1Name =  PlayerPrefs.GetString("name1");
+        gameNum = PlayerPrefs.GetInt("gameNum");
+        string saveText = "name1_game_" + gameNum.ToString();
+        PlayerPrefs.SetString(saveText, player1Name);
+
+        //Debug.Log(saveText + " " + player1Name);
+
         transform.gameObject.GetComponent<Text>().text = "Player 1: " + player1Name;
     }
 }
