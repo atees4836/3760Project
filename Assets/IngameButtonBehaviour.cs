@@ -22,4 +22,10 @@ public class IngameButtonBehaviour : MonoBehaviour
         //     SceneManager.LoadScene("MainMenu");
         // }
     }
+
+    public void PlayAgain()
+    {
+        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("board");
+    }
 }

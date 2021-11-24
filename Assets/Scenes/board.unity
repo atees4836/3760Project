@@ -581,6 +581,7 @@ MonoBehaviour:
   redPiece: {fileID: 5022866675478635970, guid: b7f9ec73f916a9849aae35ad0efcc133, type: 3}
   blackKing: {fileID: 3015291399800258881, guid: ae65ea1d37a59c24a97f94624049ed6f, type: 3}
   redKing: {fileID: 8818106823298190966, guid: ae5646a111771d843ab226c165a99dda, type: 3}
+  EndGamePanel: {fileID: 0}
 --- !u!1 &689133158
 GameObject:
   m_ObjectHideFlags: 0
@@ -978,7 +979,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1114410064}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 840018463}
+        m_TargetAssemblyTypeName: IngameButtonBehaviour, Assembly-CSharp
+        m_MethodName: LoadMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1114410064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1725,7 +1738,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2034982079}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 840018463}
+        m_TargetAssemblyTypeName: IngameButtonBehaviour, Assembly-CSharp
+        m_MethodName: PlayAgain
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2034982079
 MonoBehaviour:
   m_ObjectHideFlags: 0

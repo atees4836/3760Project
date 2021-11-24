@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
 		if(curPlayer == 2) {
 			return this.black;
 		} else if (curPlayer == 1) {
-			return this.black;
+			return this.red;
 		} else {
 			return null;
 		}
@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
 		if(curPlayer == 1) {
 			return this.black;
 		} else if (curPlayer == 2) {
-			return this.black;
+			return this.red;
 		} else {
 			return null;
 		}
