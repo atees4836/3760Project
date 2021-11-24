@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
 	public GameObject blackKing;
 	public GameObject redKing;
 
+	public GameObject EndGamePanel;
+
 	void Awake() {
 		instance = this;
 	}
@@ -33,6 +35,9 @@ public class GameManager : MonoBehaviour
     }
 
     private void setup() {
+		EndGamePanel = GameObject.Find("EndGamePanel");
+        EndGamePanel.SetActive(false);
+
     	board.initBoard();
     }
 
@@ -48,9 +53,31 @@ public class GameManager : MonoBehaviour
     public int getTurn() {
     	return curPlayer;
     }
+
+	public Player getCurPlayer() {
+		if(curPlayer == 2) {
+			return this.black;
+		} else if (curPlayer == 1) {
+			return this.black;
+		} else {
+			return null;
+		}
+	}
+
+	public Player getOppPlayer() {
+		if(curPlayer == 1) {
+			return this.black;
+		} else if (curPlayer == 2) {
+			return this.black;
+		} else {
+			return null;
+		}
+	}
     
 	public void EndGame()
 	{
 		Debug.Log("No legal moves remain");
+		EndGamePanel.SetActive(true);
+		EndGamePanel.transform.SetAsLastSibling();
 	}
 }

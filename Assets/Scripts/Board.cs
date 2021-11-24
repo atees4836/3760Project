@@ -231,6 +231,10 @@ public class Board : MonoBehaviour
 
         grid[captureY, captureX].showPiece(0);
 
+        Player p = gameManager.getOppPlayer();
+        p.SetNumPieces(p.GetNumPieces() - 1);
+        Debug.Log(p.GetNumPieces());
+
         return;
     }
 
@@ -254,7 +258,23 @@ public class Board : MonoBehaviour
 
     }
 
+    private bool GameOver() {
+        Player curPlayer = gameManager.getCurPlayer();
+        if(curPlayer == null) {
+            return true;
+        }
+        
+        if(curPlayer.GetNumPieces() <= 0) {
+            Debug.Log("Current player has no pieces remaining.");
+            return true;
+        }
+        return false;
+    }
+
     void Update() {
+        if(GameOver()) {
+            gameManager.EndGame();
+        }
         if(Input.GetMouseButtonDown(0)) {
             if (start == null) {
                 start = getSelectedTile();
