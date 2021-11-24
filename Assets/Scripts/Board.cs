@@ -15,6 +15,7 @@ public class Board : MonoBehaviour
     private Tile dest; 
     private Tile left;
     private Tile right;
+    private bool multicapture = false;
     [SerializeField] private Tile tile;
 
     //Instantiates all 64 tiles and arranges them into the appropriate board. It is called once at the start of each game.
@@ -59,7 +60,10 @@ public class Board : MonoBehaviour
                 if (start == null && grid[i, j].getClicked()) {
                     return grid[i, j];
                 } else {
-                    if (grid[i, j].getClicked() && !(start.getCol() == i && start.getRow() == j)) {
+                    if (grid[i, j].getClicked() && multicapture == true) {
+                        return grid[i, j];
+                    }
+                    else if (grid[i, j].getClicked() && !(start.getCol() == i && start.getRow() == j)) {
                         return grid[i, j];
                     }
                 }
@@ -115,35 +119,60 @@ public class Board : MonoBehaviour
     private bool Move () {
 
         bool capture = false;
+        bool endMulti = false;
 
-        //Check if destination tile is empty
-        if (checkEmptyTile() == false) {
-            Undo();
-            return false;
-        }
-        //Checks movement logic 
-        if (checkBasicStep() == true){
-            Debug.Log("Player " + gameManager.getTurn() + " Moved their piece moved to an empty square");
-        }
-        else if (checkBasicCapture() == true) {
-            capture = true;
+        if(multicapture == false)
+        {
+            //Check if destination tile is empty
+            if (checkEmptyTile() == false) {
+                Undo();
+                return false;
+            }
+
+            //Checks movement logic 
+            if (checkBasicStep() == true){
+                Debug.Log("Player " + gameManager.getTurn() + " Moved their piece moved to an empty square");
+            }
+            else if (checkBasicCapture() == true) {
+                capture = true;
+            }
+            else
+            {
+                Undo();
+                return false;
+            }
         }
         else
         {
-            Undo();
-            return false;
+            if(CheckSameTile() == true){
+                endMulti = true;
+            }
+            else if (checkBasicCapture() == true){
+                capture = true;
+            }
+            else{
+                FailedCaptureUndo();
+                return false;
+            }
         }
-
-        if (capture == true){
+        
+        if (endMulti == true){
+            multicapture = false;
+            Undo();
+        }
+        else if (capture == true){
+            multicapture = true;
             removePiece();
             kingCheck();
             dest.showPiece(start.getColour());
+            start.setKing(false);
             start.showPiece(0);
-            Undo();
+            CaptureUndo();
         }
         else{
             kingCheck();
             dest.showPiece(start.getColour());
+            start.setKing(false);
             start.showPiece(0);
             Undo();
         }
@@ -159,11 +188,19 @@ public class Board : MonoBehaviour
         return true;
     }
 
+    private bool CheckSameTile(){
+        if( (dest.getRow() != start.getRow()) || (dest.getCol() != start.getCol()) )
+        {
+            return false;
+        }
+        return true;
+    }
+
     private void kingCheck() {
         if ((dest.getRow() == 7 && start.getColour() == 1) || (dest.getRow() == 0 && start.getColour() == 2) || (start.getKing())) {
             Debug.Log("King event triggered");
             Debug.Log(" " + dest.getCol() + ", " + dest.getRow());
-            dest.setKing();
+            dest.setKing(true);
         }
     }
 
@@ -207,14 +244,17 @@ public class Board : MonoBehaviour
         if (Math.Abs(deltaX) != 2 || Math.Abs(deltaY) != 2) {
             return false;
         }
-        //Checks if piece is moving forward 
-        if ((start.getColour() == 1) && (deltaX > 0))
-        {
-            return false;
-        }
-        else if ((start.getColour() == 2) && (deltaX < 0))
-        {
-            return false;
+        //Checks if piece is basic and moving forward 
+        if(start.getKing() == false)
+        {    
+            if ((start.getColour() == 1) && (deltaX > 0))
+            {
+                return false;
+            }
+            else if ((start.getColour() == 2) && (deltaX < 0))
+            {
+                return false;
+            }
         }
         //Check for piece to capture
         if ((grid[captureY, captureX].getColour() == start.getColour()) || (grid[captureY, captureX].getColour() == 0)) {
@@ -229,6 +269,7 @@ public class Board : MonoBehaviour
         int captureX = (start.getRow() + dest.getRow())/ 2;
         int captureY = (start.getCol() + dest.getCol()) / 2;
 
+        grid[captureY, captureX].setKing(false);
         grid[captureY, captureX].showPiece(0);
 
         return;
@@ -251,7 +292,27 @@ public class Board : MonoBehaviour
             right.unHighLight();
             right = null;
         }
+    }
 
+    //Undoes selection for multi-capture
+    private void CaptureUndo()
+    {
+        if((start != null) && (dest != null))
+        {
+            start = dest;
+            dest.setClicked(false);
+            dest = null;
+        }
+        return;
+    }
+
+    private void FailedCaptureUndo()
+    {
+        if(dest != null)
+        {
+            dest.setClicked(false);
+            dest = null;
+        }
     }
 
     void Update() {
@@ -268,7 +329,9 @@ public class Board : MonoBehaviour
 
                     //switch player turn if move is valid
                     if (Move() == true) {
-                        gameManager.turnSwitch();
+                        if(multicapture == false){
+                            gameManager.turnSwitch();
+                        }
                     }
 
                 } else {

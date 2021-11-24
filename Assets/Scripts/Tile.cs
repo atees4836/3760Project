@@ -94,8 +94,8 @@ public class Tile : MonoBehaviour
     	return isKing;
     }
 
-    public void setKing() {
-    	isKing = true;
+    public void setKing(bool isKing) {
+    	this.isKing = isKing;
     }
 
     //Implemented mouse functions
