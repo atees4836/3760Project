@@ -276,7 +276,7 @@ public class Board : MonoBehaviour
         p.SetNumPieces(p.GetNumPieces() - 1);
         Debug.Log(p.GetNumPieces());
 
-        return;
+        // return;/\
     }
 
     private void Undo () {
