@@ -364,7 +364,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 321292183}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -372,13 +372,13 @@ RectTransform:
   - {fileID: 441614365}
   - {fileID: 2034982077}
   - {fileID: 1114410062}
-  m_Father: {fileID: 1464066856}
-  m_RootOrder: 5
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -8.787808, y: 144.33636}
-  m_SizeDelta: {x: 803.27, y: 377.3272}
+  m_AnchoredPosition: {x: 402.26312, y: 647.8071}
+  m_SizeDelta: {x: 803.27, y: 377.33}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &321292185
 MonoBehaviour:
@@ -429,6 +429,7 @@ GameObject:
   - component: {fileID: 441614365}
   - component: {fileID: 441614367}
   - component: {fileID: 441614366}
+  - component: {fileID: 441614368}
   m_Layer: 5
   m_Name: Winner
   m_TagString: Untagged
@@ -497,6 +498,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 441614364}
   m_CullTransparentMesh: 1
+--- !u!114 &441614368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 441614364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8361fb564b383468eaa8f8cf9cec6164, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &615495414
 GameObject:
   m_ObjectHideFlags: 0
@@ -1205,7 +1218,6 @@ RectTransform:
   - {fileID: 2112674752}
   - {fileID: 1999449682}
   - {fileID: 68965663}
-  - {fileID: 321292184}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

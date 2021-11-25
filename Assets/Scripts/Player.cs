@@ -17,6 +17,10 @@ public class Player
         numPieces = 12;
     }
 
+    public string getName() {
+        return this.name;
+    }
+
     public void SetNumPieces(int num) {
         this.numPieces = num;
     }

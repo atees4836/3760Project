@@ -255,7 +255,24 @@ public class Board : MonoBehaviour
             right.unHighLight();
             right = null;
         }
+    }
 
+    private string GetWinner() {
+        Player winner;
+        string winnerString = "";
+
+        if (gameManager.getCurPlayer().GetNumPieces() > gameManager.getOppPlayer().GetNumPieces()) {
+            winner = gameManager.getCurPlayer();
+        } else if (gameManager.getOppPlayer().GetNumPieces() > gameManager.getCurPlayer().GetNumPieces()) {
+            winner = gameManager.getOppPlayer();
+        } else {
+            winnerString = "Tie Game";
+            return winnerString;
+        }
+
+        winnerString += winner.getName();
+        winnerString += " wins!";
+        return winnerString;
     }
 
     private bool GameOver() {
@@ -273,9 +290,8 @@ public class Board : MonoBehaviour
 
     void Update() {
         if(GameOver()) {
-            gameManager.EndGame();
-        }
-        if(Input.GetMouseButtonDown(0)) {
+            gameManager.EndGame(GetWinner());
+        }else if(Input.GetMouseButtonDown(0)) {
             if (start == null) {
                 start = getSelectedTile();
                 if (start.getColour() != gameManager.getTurn()) {
@@ -296,11 +312,6 @@ public class Board : MonoBehaviour
                 }
             }
         }
-
-        /*if (start) {
-            showMoves();
-        }*/
-
     }
 
 }

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class GameManager : MonoBehaviour
 {
@@ -74,10 +76,12 @@ public class GameManager : MonoBehaviour
 		}
 	}
     
-	public void EndGame()
-	{
+	public void EndGame(string winner) {
 		Debug.Log("No legal moves remain");
+
 		EndGamePanel.SetActive(true);
-		EndGamePanel.transform.SetAsLastSibling();
+		GameObject winnerText = GameObject.Find("Winner");
+		winnerText.transform.GetComponent<Text>().text = winner;
+		// EndGamePanel.transform.SetAsFirstSibling();
 	}
 }
