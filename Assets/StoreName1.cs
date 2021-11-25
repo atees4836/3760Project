@@ -25,6 +25,11 @@ public class StoreName1 : MonoBehaviour
 
     // Save player 1 name to user's local files
     void OnDisable() {
+        //if no games ever played before, set this gameNum to 1
+        int gameNum;
+        gameNum = PlayerPrefs.GetInt("gameNum", 0);
+        gameNum++;
+        PlayerPrefs.SetInt("gameNum", gameNum);
         PlayerPrefs.SetString("name1", Name1);
     }
 }
