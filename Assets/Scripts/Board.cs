@@ -264,6 +264,150 @@ public class Board : MonoBehaviour
         return true;
     }
 
+    //Checks if tile coordinates are valid
+    private bool CheckValidTile(int col, int row){
+        if(col < 0 || col > 7){
+            return false;
+        }
+        if(row < 0 || row > 7){
+            return false;
+        }
+
+        return true;
+    }
+
+    //Check if piece has upward moves
+    private bool CheckCanMoveUp(Tile tile){
+        //Top right
+        if(CheckValidTile(tile.getCol()-1, tile.getRow()-1)){
+            if(grid[tile.getCol()-1, tile.getRow()-1].getColour() == 0){
+                return true;
+            }
+        }
+        //Top left
+        if(CheckValidTile(tile.getCol()+1, tile.getRow()-1)){
+            if(grid[tile.getCol()+1, tile.getRow()-1].getColour() == 0){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //Check if piece can capture upwards 
+    private bool CheckCanCaptureUp(Tile tile){
+        //Top Right
+        if(CheckValidTile(tile.getCol()-2, tile.getRow()-2)){
+            if( (grid[tile.getCol()-2, tile.getRow()-2].getColour() == 0) && (grid[tile.getCol()-1, tile.getRow()-1].getColour() + tile.getColour() == 3) ){
+                return true;
+            }
+        }
+        if(CheckValidTile(tile.getCol()+2, tile.getRow()-2)){
+            if( (grid[tile.getCol()+2, tile.getRow()-2].getColour() == 0) && (grid[tile.getCol()+1, tile.getRow()-1].getColour() + tile.getColour() == 3) ){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //Check if piece has downward moves
+    private bool CheckCanMoveDown(Tile tile){
+        //Bottom right
+        if(CheckValidTile(tile.getCol()+1, tile.getRow()+1)){
+            if(grid[tile.getCol()+1, tile.getRow()+1].getColour() == 0){
+                return true;
+            }
+        }
+        //Bottom left
+        if(CheckValidTile(tile.getCol()-1, tile.getRow()+1)){
+            if(grid[tile.getCol()-1, tile.getRow()+1].getColour() == 0){
+                return true;
+            }
+        }
+        return false;
+    }
+
+     //Check if piece can capture downwards 
+    private bool CheckCanCaptureDown(Tile tile){
+        //Top Right
+        if(CheckValidTile(tile.getCol()+2, tile.getRow()+2)){
+            if( (grid[tile.getCol()+2, tile.getRow()+2].getColour() == 0) && (grid[tile.getCol()+1, tile.getRow()+1].getColour() + tile.getColour() == 3) ){
+                return true;
+            }
+        }
+        if(CheckValidTile(tile.getCol()-2, tile.getRow()+2)){
+            if( (grid[tile.getCol()-2, tile.getRow()+2].getColour() == 0) && (grid[tile.getCol()-1, tile.getRow()+1].getColour() + tile.getColour() == 3) ){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //Check if piece can move 
+    private bool CheckHasMove(Tile tile){
+        
+        if(tile.getKing() == true){
+            //If king
+            if(CheckCanMoveUp(tile) == true){
+                return true;
+            }
+            if(CheckCanMoveDown(tile) == true){
+                return true;
+            }  
+        }
+        else if(tile.getColour() == 1){
+            //If red
+            if(CheckCanMoveDown(tile) == true){
+                return true;
+            }
+        }
+        else if(tile.getColour() == 2){
+            //If black
+            if(CheckCanMoveUp(tile) == true){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    //Check if piece can move 
+    private bool CheckHasCapture(Tile tile){
+        
+        if(tile.getKing() == true){
+            //If king
+            if(CheckCanCaptureUp(tile) == true){
+                return true;
+            }
+            if(CheckCanCaptureDown(tile) == true){
+                return true;
+            }  
+        }
+        else if(tile.getColour() == 1){
+            //If red
+            if(CheckCanCaptureDown(tile) == true){
+                return true;
+            }
+        }
+        else if(tile.getColour() == 2){
+            //If black
+            if(CheckCanCaptureUp(tile) == true){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private bool CheckPieceCanMove(Tile tile){
+        if(CheckHasMove(tile) == true){
+            return true;
+        }
+        else if(CheckHasCapture(tile)){
+            return true;
+        }
+        return false;
+    }
+
     //Removes a piece based off of the start and destination positions
     private void removePiece() {
         int captureX = (start.getRow() + dest.getRow())/ 2;
