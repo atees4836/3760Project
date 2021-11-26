@@ -81,8 +81,8 @@ public class GameManager : MonoBehaviour
 
 		// EndGamePanel.SetActive(true);
 		SceneManager.LoadScene("Game Over");
-		GameObject winnerText = GameObject.Find("Winner");
-		winnerText.transform.GetComponent<Text>().text = winner;
+		// GameObject winnerText = GameObject.Find("Winner");
+		// winnerText.transform.GetComponent<Text>().text = winner;
 		// EndGamePanel.transform.SetAsFirstSibling();
 	}
 }
