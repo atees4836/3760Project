@@ -35,9 +35,16 @@ public class TextLogControl : MonoBehaviour
             name1TextTemp = "name1_game_" + gameNumTemp;
             name2TextTemp = "name2_game_" + gameNumTemp;
             winnerTextTemp = "winner_game_" + gameNumTemp;
-            name1Temp = PlayerPrefs.GetString(name1TextTemp);
-            name2Temp = PlayerPrefs.GetString(name2TextTemp);
+            name1Temp = PlayerPrefs.GetString(name1TextTemp, "Player 1");
+            name2Temp = PlayerPrefs.GetString(name2TextTemp, "Player 2");
             winnerTemp = PlayerPrefs.GetString(winnerTextTemp, "None");
+
+            if(name1Temp == "" || name1Temp == " ") {
+                name1Temp = "Player 1";
+            }
+            if(name2Temp == "" || name2Temp == " ") {
+                name2Temp = "Player 2";
+            }
             //Debug.Log("name1Temp: " + name1Temp + ", name2Temp: " + name2Temp);
 
             //create new Text gameObject and set it as active
