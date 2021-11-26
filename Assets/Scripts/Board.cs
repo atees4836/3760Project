@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 /* The board class stores an array of Tiles which represents the game board. The class hosts functions that render the board
    and implement piece movement/capturing. */
