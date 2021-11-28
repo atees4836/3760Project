@@ -75,6 +75,7 @@ crashlytics-build.properties
 
 # Executable Data
 TestCheckers.app
+Test_Checkers.app
 claire_learning.exe
 claire_learning_Data/
 MonoBleedingEdge/

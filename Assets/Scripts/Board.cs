@@ -272,7 +272,11 @@ public class Board : MonoBehaviour
         grid[captureY, captureX].setKing(false);
         grid[captureY, captureX].showPiece(0);
 
-        return;
+        Player p = gameManager.getOppPlayer();
+        p.SetNumPieces(p.GetNumPieces() - 1);
+        Debug.Log(p.GetNumPieces());
+
+        // return;/\
     }
 
     private void Undo () {
@@ -294,6 +298,36 @@ public class Board : MonoBehaviour
         }
     }
 
+    private string GetWinner() {
+        Player winner;
+        string winnerString = "";
+
+        if (gameManager.getCurPlayer().GetNumPieces() > gameManager.getOppPlayer().GetNumPieces()) {
+            winner = gameManager.getCurPlayer();
+        } else if (gameManager.getOppPlayer().GetNumPieces() > gameManager.getCurPlayer().GetNumPieces()) {
+            winner = gameManager.getOppPlayer();
+        } else {
+            winnerString = "Tie Game";
+            return winnerString;
+        }
+
+        winnerString += winner.getName();
+        winnerString += " wins!";
+        return winnerString;
+    }
+
+    private bool GameOver() {
+        Player curPlayer = gameManager.getCurPlayer();
+        if(curPlayer == null) {
+            return true;
+        }
+        
+        if(curPlayer.GetNumPieces() <= 0) {
+            Debug.Log("Current player has no pieces remaining.");
+            return true;
+        }
+        return false;
+    }
     //Undoes selection for multi-capture
     private void CaptureUndo()
     {
@@ -316,7 +350,9 @@ public class Board : MonoBehaviour
     }
 
     void Update() {
-        if(Input.GetMouseButtonDown(0)) {
+        if(GameOver()) {
+            gameManager.EndGame(GetWinner());
+        }else if(Input.GetMouseButtonDown(0)) {
             if (start == null) {
                 start = getSelectedTile();
                 if (start.getColour() != gameManager.getTurn()) {
@@ -339,11 +375,6 @@ public class Board : MonoBehaviour
                 }
             }
         }
-
-        /*if (start) {
-            showMoves();
-        }*/
-
     }
 
 }
