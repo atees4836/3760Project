@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,6 +20,8 @@ public class GameManager : MonoBehaviour
 	public GameObject blackKing;
 	public GameObject redKing;
 
+	public GameObject EndGamePanel;
+
 	void Awake() {
 		instance = this;
 	}
@@ -33,6 +37,9 @@ public class GameManager : MonoBehaviour
     }
 
     private void setup() {
+		EndGamePanel = GameObject.Find("EndGamePanel");
+        EndGamePanel.SetActive(false);
+
     	board.initBoard();
     }
 
@@ -48,5 +55,34 @@ public class GameManager : MonoBehaviour
     public int getTurn() {
     	return curPlayer;
     }
+
+	public Player getCurPlayer() {
+		if(curPlayer == 2) {
+			return this.black;
+		} else if (curPlayer == 1) {
+			return this.red;
+		} else {
+			return null;
+		}
+	}
+
+	public Player getOppPlayer() {
+		if(curPlayer == 1) {
+			return this.black;
+		} else if (curPlayer == 2) {
+			return this.red;
+		} else {
+			return null;
+		}
+	}
     
+	public void EndGame(string winner) {
+		Debug.Log("No legal moves remain");
+
+		// EndGamePanel.SetActive(true);
+		SceneManager.LoadScene("Game Over");
+		// GameObject winnerText = GameObject.Find("Winner");
+		// winnerText.transform.GetComponent<Text>().text = winner;
+		// EndGamePanel.transform.SetAsFirstSibling();
+	}
 }
