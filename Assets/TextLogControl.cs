@@ -57,7 +57,6 @@ public class TextLogControl : MonoBehaviour
             gameNumTemp++;
         }
 
-
     }
 
     public void LogText(string newTextString, Color newColour)

@@ -301,6 +301,10 @@ public class Board : MonoBehaviour
     private string GetWinner() {
         Player winner;
         string winnerString = "";
+        string winnerTemp;
+        int gameNumTemp;
+        string retrieveText;
+        string saveText;
 
         if (gameManager.getCurPlayer().GetNumPieces() > gameManager.getOppPlayer().GetNumPieces()) {
             winner = gameManager.getCurPlayer();
@@ -312,6 +316,32 @@ public class Board : MonoBehaviour
         }
 
         winnerString += winner.getName();
+
+        if(winnerString == "red") {
+            gameNumTemp = PlayerPrefs.GetInt("gameNum");
+            retrieveText = "name_2_game_" + gameNumTemp.ToString();
+            winnerTemp = PlayerPrefs.GetString(retrieveText);
+
+            if(winnerTemp == "" || winnerTemp == " ") {
+                winnerTemp = "Player 2";
+            }
+
+            saveText = "winner_game_" + gameNumTemp.ToString();
+            PlayerPrefs.SetString(saveText, winnerTemp);
+        }
+        else if(winnerString == "black") {
+            gameNumTemp = PlayerPrefs.GetInt("gameNum");
+            retrieveText = "name_1_game_" + gameNumTemp.ToString();
+            winnerTemp = PlayerPrefs.GetString(retrieveText);
+
+            if(winnerTemp == "" || winnerTemp == " ") {
+                winnerTemp = "Player 1";
+            }
+
+            saveText = "winner_game_" + gameNumTemp.ToString();
+            PlayerPrefs.SetString(saveText, winnerTemp);
+        }
+
         winnerString += " wins!";
         return winnerString;
     }
