@@ -9,6 +9,7 @@ public class TextLogControl : MonoBehaviour
     private GameObject textTemplate;
     private List<GameObject> textItems;
 
+    //Retrieve player names and winner from PlayerPrefs log and display to player history scene log
     void Start()
     {
         textItems = new List<GameObject>();
